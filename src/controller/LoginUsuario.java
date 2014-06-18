@@ -19,12 +19,12 @@ public class LoginUsuario extends HttpServlet {
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String login = request.getParameter("login");
-		String senha = request.getParameter("pass");
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
 		
 		GerenciadorDeUsuarios gerenciador = new GerenciadorDeUsuarios();
 			
-		Usuario usuarioLogado = gerenciador.tentaLogar(login,senha);
+		Usuario usuarioLogado = gerenciador.tentaLogar(email, senha);
 		
 		if(usuarioLogado!=null){
 			request.getSession().setAttribute("usuarioLogado", usuarioLogado);

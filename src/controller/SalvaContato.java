@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Agenda;
+import model.Usuario;
 
 @SuppressWarnings("serial")
 @WebServlet("/salvar")
@@ -22,10 +23,12 @@ public class SalvaContato extends HttpServlet{
 		String nome = req.getParameter("nome");
 		String telefone = req.getParameter("telefone");
 		
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuarioLogado");
+				
 		Agenda agenda = new Agenda();
-		agenda.adicionaContato(nome, telefone);
+		agenda.adicionaContato(nome, telefone,usuario);
 		
-		req.setAttribute("contatos", agenda.buscarTodosOsContatos());
+		req.setAttribute("contatos", agenda.buscarTodosOsContatos(usuario));
 		vaiParaPagina(req, resp, "site/contatos.jsp");
 
 	}

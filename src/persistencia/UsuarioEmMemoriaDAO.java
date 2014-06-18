@@ -20,9 +20,9 @@ public class UsuarioEmMemoriaDAO implements UsuarioDAO{
 	}
 
 	@Override
-	public Usuario buscaPorLoginESenha(String login, String senha) {
+	public Usuario buscaPorLoginESenha(String email, String senha) {
 		
-		Usuario usuario = usuariosCadastrados.get(login);
+		Usuario usuario = usuariosCadastrados.get(email);
 		if(usarionaonulo(usuario) && senhaValida(senha, usuario)){
 			return usuario;
 		}else{

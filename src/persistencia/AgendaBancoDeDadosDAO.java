@@ -11,25 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Contato;
+import model.Usuario;
 
 public class AgendaBancoDeDadosDAO implements AgendaDAO{
 
-
-	
-	public Contato salvaContato(Contato contato) {
-	
-		Connection connection = null;
+	public Contato salvaContato(Contato contato,Usuario usuario) {
+     	Connection connection = null;
 		PreparedStatement statement = null;
 
 		try {
-			
+
 			connection = getConection();
-			String sql = "INSERT INTO Agenda (nome, telefone) VALUES (?, ?)";
+			String sql = "INSERT INTO Agenda (nome, telefone,usuario_id) VALUES (?, ?, ?)";
 
 			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			statement = connection.prepareStatement(sql);
 			statement.setString(1, contato.getNome());
 			statement.setString(2, contato.getTelefone());
+			statement.setLong(3, usuario.getId());
 			statement.executeUpdate();
 			ResultSet keys = statement.getGeneratedKeys();
 			keys.next();
@@ -44,9 +42,6 @@ public class AgendaBancoDeDadosDAO implements AgendaDAO{
 		return contato;
 	}
 
-	
-
-
 	public Contato buscaContatoPorID(Long id) {
 		Contato contact = null;
 		Connection connection = null;
@@ -54,10 +49,10 @@ public class AgendaBancoDeDadosDAO implements AgendaDAO{
 
 		try {
 			connection = getConection();
-			String sql = "SELECT * FROM Agenda WHERE ID LIKE ?";
+			String sql = "SELECT * FROM Agenda WHERE ID = ?";
 			statement = connection.prepareStatement(sql);
 			statement.setLong(1, id);
-			statement.setString(1, "%" + id + "%");
+	
 			ResultSet resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
@@ -74,15 +69,16 @@ public class AgendaBancoDeDadosDAO implements AgendaDAO{
 		}return contact;
 	}
 
-	public List<Contato> buscaTodosOsContatos() {
-		List<Contato> contatos =  new ArrayList<Contato>();
+	public List<Contato> buscaTodosOsContatos(Usuario usuario) {
+		List<Contato> contatos = new ArrayList<Contato>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 
 		try {
 			connection = getConection();
-			String sql = "SELECT * FROM Agenda";
+			String sql = "SELECT * FROM agenda where usuario_id = ? ORDER BY nome ASC";
 			statement = connection.prepareStatement(sql);
+			statement.setLong(1, usuario.getId());
 			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
@@ -91,7 +87,8 @@ public class AgendaBancoDeDadosDAO implements AgendaDAO{
 				contact.setNome(resultSet.getString("nome"));
 				contact.setTelefone(resultSet.getString("telefone"));
 				contatos.add(contact);
-			}resultSet.close();
+			}
+			resultSet.close();
 		} catch (Exception e) {
 			throw new RuntimeException("Erro ao buscar todos os contatos", e);
 		} finally {
@@ -116,6 +113,6 @@ public class AgendaBancoDeDadosDAO implements AgendaDAO{
 			releaseDatabaseResources(statement, connection);
 		}
 	}		
-	
-	
+
+
 }

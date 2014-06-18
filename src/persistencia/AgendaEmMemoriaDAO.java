@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Contato;
+import model.Usuario;
 
 public class AgendaEmMemoriaDAO implements AgendaDAO{
 	
 	
 	private List<Contato> listaDeContatos =  new ArrayList<Contato>();
 	
-	public Contato salvaContato(Contato contato) {
+	public Contato salvaContato(Contato contato,Usuario usuario) {
 		listaDeContatos.add(contato);
 		return contato;
 	}
@@ -25,7 +26,7 @@ public class AgendaEmMemoriaDAO implements AgendaDAO{
 		return null;
 	}
 
-	public List<Contato> buscaTodosOsContatos() {
+	public List<Contato> buscaTodosOsContatos(Usuario usuario) {
 		return listaDeContatos;
 	}
 

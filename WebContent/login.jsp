@@ -17,8 +17,8 @@
 </c:if>
 <h2>Login:</h2>
 	<form action="http://localhost:8080/Agenda/login" method="POST">
-		<input type="text" name="login" /> 
-		<input type="password" name="pass" /> 
+		<input type="text" name="email" /> 
+		<input type="password" name="senha" /> 
 		<input type="submit" value="efetuar login" />
 	</form>
 	

@@ -3,6 +3,7 @@ package br.com.bruno;
 import java.util.List;
 
 import model.Contato;
+import model.Usuario;
 
 import org.junit.*;
 
@@ -18,7 +19,7 @@ public class TesteBancoDeDadosEmMemoria {
 		contato.setTelefone("9999-8888");
 
 		AgendaDAO banco = new AgendaEmMemoriaDAO();
-		banco.salvaContato(contato);
+		banco.salvaContato(contato,new Usuario());
 	}
 
 	@Test
@@ -33,10 +34,10 @@ public class TesteBancoDeDadosEmMemoria {
 		contato2.setTelefone("9344-2890");
 
 		AgendaDAO banco = new AgendaEmMemoriaDAO();
-		banco.salvaContato(contato1);
-		banco.salvaContato(contato2);
+		banco.salvaContato(contato1,new Usuario());
+		banco.salvaContato(contato2,new Usuario());
 
-		List<Contato> buscaTodosOsContatos = banco.buscaTodosOsContatos();
+		List<Contato> buscaTodosOsContatos = banco.buscaTodosOsContatos(new Usuario());
 
 		assertEquals(buscaTodosOsContatos.get(0), contato1);
 		assertEquals(buscaTodosOsContatos.get(1), contato2);	

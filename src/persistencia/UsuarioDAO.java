@@ -6,6 +6,6 @@ public interface UsuarioDAO {
 
 	void salvaUsuario(Usuario usuario);
 
-	Usuario buscaPorLoginESenha(String login,String senha);
+	Usuario buscaPorLoginESenha(String email,String senha);
 
 }

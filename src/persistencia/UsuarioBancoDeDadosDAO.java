@@ -11,9 +11,6 @@ import java.sql.Statement;
 import model.Usuario;
 
 public class UsuarioBancoDeDadosDAO implements UsuarioDAO {
-
-	
-	
 	
 	@Override
 	public void salvaUsuario(Usuario usuario) {
@@ -43,9 +40,40 @@ public class UsuarioBancoDeDadosDAO implements UsuarioDAO {
 	
 
 	@Override
-	public Usuario buscaPorLoginESenha(String login, String senha) {
-	
-		return null;
-	}
+	public Usuario buscaPorLoginESenha(String email, String senha) {
+		Usuario usuario=null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = getConection();
+			
+			String sql = "SELECT * FROM Usuario WHERE email = ? and senha = ?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, email);
+			statement.setString(2, senha);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			while(resultSet.next()) {
+				
+				usuario = new Usuario(resultSet.getString("nome"),
+	        		            resultSet.getString("email"),
+	        		            resultSet.getString("senha"),
+	        		            resultSet.getLong("id"));
+				
+		   }
+			
+			resultSet.close();
+			return usuario;
+		} catch (Exception e) {
+			throw new RuntimeException("Erro.", e);
+		} finally {
+				releaseDatabaseResources(statement, connection);
+		}
 	
 }
+		
+	}
+
+		

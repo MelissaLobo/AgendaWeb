@@ -1,11 +1,13 @@
 package model;
 
+import persistencia.UsuarioBancoDeDadosDAO;
 import persistencia.UsuarioDAO;
 import persistencia.UsuarioEmMemoriaDAO;
 
 public class GerenciadorDeUsuarios {
 	
-	UsuarioDAO banco = new UsuarioEmMemoriaDAO();
+	//UsuarioDAO banco = new UsuarioEmMemoriaDAO();
+	UsuarioDAO banco = new UsuarioBancoDeDadosDAO();
 
 	public void cadastrarUsuario(String nome, String email, String senha) {
 
@@ -17,7 +19,7 @@ public class GerenciadorDeUsuarios {
 		banco.salvaUsuario(usuario);
 	}
 
-	public Usuario tentaLogar(String login, String senha) {
-		return banco.buscaPorLoginESenha(login, senha);
+	public Usuario tentaLogar(String email, String senha) {
+		return banco.buscaPorLoginESenha(email, senha);
 	}
 }
